@@ -1,15 +1,42 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const story=$('#story'), booking=$('#booking'), success=$('#success');
+const booking=$('#booking'), success=$('#success');
 let step=1, trip='ida-vuelta', vehicle='fronx', bags=0, stops=0, lastSummary='';
-const prices={fronx:110000,runner:180000};
 const CLP=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
-setTimeout(()=>story.classList.remove('hidden'),200);
-$$('[data-close-story]').forEach(b=>b.onclick=()=>story.classList.add('hidden'));
-$$('[data-open-story]').forEach(b=>b.onclick=()=>story.classList.remove('hidden'));
+
 $$('[data-open-booking]').forEach(b=>b.onclick=()=>openBooking());
-$$('[data-story-book]').forEach(b=>b.onclick=()=>{story.classList.add('hidden');openBooking()});
 $$('[data-book-vehicle]').forEach(b=>b.onclick=()=>{vehicle=b.dataset.bookVehicle;openBooking();setTimeout(()=>{step=2;render()},50)});
+$$('[data-frame-book]').forEach(b=>b.onclick=e=>{e.stopPropagation();vehicle=b.dataset.frameBook;openBooking();setTimeout(()=>{step=2;render()},50)});
 function openBooking(){booking.showModal();step=1;render()}
+
+const frameCards=$$('[data-frame-card]');
+function activateFrame(card){frameCards.forEach(x=>x.classList.toggle('active',x===card));}
+frameCards.forEach(card=>{
+  const video=card.querySelector('.frame-video');
+  let raf=0, dragging=false;
+  const seek=(clientX)=>{
+    const rect=card.getBoundingClientRect();
+    const ratio=Math.max(0,Math.min(1,(clientX-rect.left)/rect.width));
+    card.style.setProperty('--seek',`${ratio*100}%`);
+    card.style.setProperty('--mx',`${(ratio-.5)*-12}px`);
+    if(video?.duration && Number.isFinite(video.duration)){
+      cancelAnimationFrame(raf);
+      raf=requestAnimationFrame(()=>{try{video.currentTime=Math.max(.05,Math.min(video.duration-.05,ratio*video.duration))}catch{}});
+    }
+  };
+  card.addEventListener('pointerenter',e=>{activateFrame(card);if(video){video.pause();seek(e.clientX)}});
+  card.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||dragging)seek(e.clientX)});
+  card.addEventListener('pointerleave',()=>{dragging=false;card.style.setProperty('--mx','0px');if(video)video.play().catch(()=>{})});
+  card.addEventListener('pointerdown',e=>{dragging=true;activateFrame(card);card.setPointerCapture?.(e.pointerId);seek(e.clientX)});
+  card.addEventListener('pointerup',e=>{dragging=false;card.releasePointerCapture?.(e.pointerId)});
+  card.addEventListener('focus',()=>activateFrame(card));
+  card.addEventListener('click',e=>{if(e.target.closest('button'))return;activateFrame(card)});
+  if(video){
+    video.addEventListener('loadedmetadata',()=>{video.playbackRate=.72;video.play().catch(()=>{})});
+    video.addEventListener('timeupdate',()=>{if(!video.duration)return;card.style.setProperty('--seek',`${(video.currentTime/video.duration)*100}%`)});
+    video.play().catch(()=>{});
+  }
+});
+
 $$('[data-trip]').forEach(b=>b.onclick=()=>{trip=b.dataset.trip;$$('[data-trip]').forEach(x=>x.classList.toggle('selected',x===b));$$('.return-field').forEach(x=>x.style.display=trip==='ida-vuelta'?'grid':'none')});
 const pax=$('#passengers');for(let i=1;i<=16;i++)pax.add(new Option(i,i));pax.value=2;pax.onchange=()=>{vehicle=+pax.value<=3?'fronx':+pax.value===4?'runner':'sprinter';renderVehicles()};
 function renderVehicles(){const n=+pax.value;const list=[{id:'fronx',name:'Suzuki Fronx',cap:'1–3 pasajeros',price:'$110.000 / tramo',ok:n<=3},{id:'runner',name:'Toyota 4Runner',cap:'1–4 pasajeros',price:'$180.000 / tramo',ok:n<=4},{id:'sprinter',name:'Mercedes Sprinter',cap:'5–16 pasajeros',price:n>=7?'$26.000 p/p / tramo':'$38.000 p/p / tramo',ok:n>=5}];if(!list.find(x=>x.id===vehicle)?.ok)vehicle=list.find(x=>x.ok)?.id||'sprinter';$('#vehicleButtons').innerHTML=list.map(x=>`<button type="button" class="vehicle-choice ${vehicle===x.id?'selected':''}" data-v="${x.id}" ${!x.ok?'disabled':''}><strong>${x.name}</strong><span>${x.cap}</span><b>${x.ok?x.price:'No disponible para este grupo'}</b></button>`).join('');$$('[data-v]').forEach(b=>b.onclick=()=>{vehicle=b.dataset.v;renderVehicles()});$('#priorityWrap').style.display=n<=4?'flex':'none'}
