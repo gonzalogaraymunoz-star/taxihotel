@@ -3,6 +3,7 @@ const booking=$('#booking'), success=$('#success');
 let step=1, trip='ida-vuelta', vehicle='fronx', bags=0, stops=0, lastSummary='';
 const CLP=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
 
+
 $$('[data-open-booking]').forEach(b=>b.onclick=()=>openBooking());
 $$('[data-book-vehicle]').forEach(b=>b.onclick=()=>{vehicle=b.dataset.bookVehicle;openBooking();setTimeout(()=>{step=2;render()},50)});
 $$('[data-frame-book]').forEach(b=>b.onclick=e=>{e.stopPropagation();vehicle=b.dataset.frameBook;openBooking();setTimeout(()=>{step=2;render()},50)});
@@ -31,7 +32,9 @@ frameCards.forEach(card=>{
   card.addEventListener('focus',()=>activateFrame(card));
   card.addEventListener('click',e=>{if(e.target.closest('button'))return;activateFrame(card)});
   if(video){
-    video.addEventListener('loadedmetadata',()=>{video.playbackRate=.72;video.play().catch(()=>{})});
+    const ready=()=>card.classList.add('video-ready');
+    video.addEventListener('loadedmetadata',()=>{ready();video.playbackRate=.72;video.play().catch(()=>{})});
+    video.addEventListener('canplay',ready);
     video.addEventListener('timeupdate',()=>{if(!video.duration)return;card.style.setProperty('--seek',`${(video.currentTime/video.duration)*100}%`)});
     video.play().catch(()=>{});
   }

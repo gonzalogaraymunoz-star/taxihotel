@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="premium.css">
 </head>
 <body>
   <header class="nav">
@@ -27,9 +28,8 @@
       <div class="fleet-stage" aria-label="Opciones de vehículos Taxi Hotel">
         <article class="frame-card active" data-frame-card data-vehicle="fronx" tabindex="0">
           <div class="frame-media">
-            <video class="frame-video" muted playsinline preload="auto" loop poster="https://drive.google.com/thumbnail?id=1lR0Ex_85CA-wmhtXPRCoVMxyue_Ztwfa&sz=w1600">
-              <source src="https://drive.google.com/uc?export=download&id=1mTJSmTIW437fGB6zeLxBx_QaiclWmgdf" type="video/mp4">
-            </video>
+            <img class="frame-poster" src="https://drive.google.com/thumbnail?id=1tWT_ni_Q9ZYX0-2v3KUuIbqqEyKNiKTq&sz=w1600" alt="Suzuki Fronx en Taxi Hotel" loading="eager">
+            <video class="frame-video" muted playsinline preload="metadata" loop poster="https://drive.google.com/thumbnail?id=1tWT_ni_Q9ZYX0-2v3KUuIbqqEyKNiKTq&sz=w1600"><source src="https://drive.google.com/uc?export=download&id=1mTJSmTIW437fGB6zeLxBx_QaiclWmgdf" type="video/mp4"></video>
             <div class="frame-shade"></div>
           </div>
           <div class="frame-top"><span>01 · PRIVADO</span><span>1–3 pasajeros</span></div>
@@ -40,9 +40,8 @@
 
         <article class="frame-card" data-frame-card data-vehicle="runner" tabindex="0">
           <div class="frame-media">
-            <video class="frame-video" muted playsinline preload="auto" loop poster="https://drive.google.com/thumbnail?id=1tWT_ni_Q9ZYX0-2v3KUuIbqqEyKNiKTq&sz=w1600">
-              <source src="https://drive.google.com/uc?export=download&id=1nohLys_2D_u6JmawW7nxT04GE_ArE1bk" type="video/mp4">
-            </video>
+            <img class="frame-poster" src="https://drive.google.com/thumbnail?id=1lR0Ex_85CA-wmhtXPRCoVMxyue_Ztwfa&sz=w1600" alt="Toyota 4Runner en Taxi Hotel" loading="eager">
+            <video class="frame-video" muted playsinline preload="metadata" loop poster="https://drive.google.com/thumbnail?id=1lR0Ex_85CA-wmhtXPRCoVMxyue_Ztwfa&sz=w1600"><source src="https://drive.google.com/uc?export=download&id=1nohLys_2D_u6JmawW7nxT04GE_ArE1bk" type="video/mp4"></video>
             <div class="frame-shade"></div>
           </div>
           <div class="frame-top"><span>02 · PRIVADO</span><span>1–4 pasajeros</span></div>
@@ -53,7 +52,7 @@
 
         <article class="frame-card still" data-frame-card data-vehicle="sprinter" tabindex="0">
           <div class="frame-media">
-            <img class="frame-still" src="https://drive.google.com/thumbnail?id=1ukAB-JqoiCTaMSSrpCcEmd1im2pVQIy_&sz=w1800" alt="Mercedes-Benz Sprinter Taxi Hotel">
+            <img class="frame-poster frame-still" src="https://drive.google.com/thumbnail?id=1ukAB-JqoiCTaMSSrpCcEmd1im2pVQIy_&sz=w1800" alt="Mercedes-Benz Sprinter Taxi Hotel" loading="eager">
             <div class="frame-shade"></div>
           </div>
           <div class="frame-top"><span>03 · SEMIPRIVADO</span><span>5–16 pasajeros</span></div>
@@ -69,18 +68,76 @@
       </div>
     </section>
 
-    <section class="vehicles section" id="vehiculos">
-      <div class="section-head"><p class="kicker">ELIGE CÓMO VIAJAR</p><h2>Un vehículo para cada viaje</h2><p>Compara capacidad y tarifa. Solo verás opciones compatibles con tu grupo al reservar.</p></div>
-      <div class="vehicle-grid">
-        <article class="vehicle"><img src="https://drive.google.com/thumbnail?id=1tWT_ni_Q9ZYX0-2v3KUuIbqqEyKNiKTq&sz=w1600" alt="Toyota 4Runner para traslado privado"><div class="vehicle-copy"><span>PRIVADO</span><h3>Toyota 4Runner</h3><p>Hasta 4 pasajeros con equipaje.</p><strong>Desde $180.000 <small>por tramo</small></strong><button data-book-vehicle="runner">Elegir 4Runner</button></div></article>
-        <article class="vehicle featured"><img src="https://drive.google.com/thumbnail?id=1lR0Ex_85CA-wmhtXPRCoVMxyue_Ztwfa&sz=w1600" alt="Suzuki Fronx para traslado privado"><div class="vehicle-copy"><span>PRIVADO</span><h3>Suzuki Fronx</h3><p>Hasta 3 pasajeros con equipaje.</p><strong>Desde $110.000 <small>por tramo</small></strong><button data-book-vehicle="fronx">Elegir Fronx</button></div></article>
-        <article class="vehicle"><img src="https://drive.google.com/thumbnail?id=1ukAB-JqoiCTaMSSrpCcEmd1im2pVQIy_&sz=w1600" alt="Mercedes-Benz Sprinter para traslado semiprivado"><div class="vehicle-copy"><span>SEMIPRIVADO</span><h3>Mercedes Sprinter</h3><p>De 5 a 16 pasajeros. Confirmación en 24 horas.</p><strong>Desde $26.000 <small>p/p por tramo</small></strong><button data-book-vehicle="sprinter">Elegir Sprinter</button></div></article>
+    <section class="vehicles-premium" id="vehiculos">
+      <div class="vehicles-intro">
+        <div><p class="kicker">NUESTRA FLOTA</p><h2>Tres formas de llegar.<br><em>Una sola experiencia.</em></h2></div>
+        <p>Elige según el tamaño de tu grupo, equipaje y nivel de privacidad. El sistema te mostrará solo las opciones que realmente sirven para tu viaje.</p>
       </div>
+
+      <div class="vehicle-showcase">
+        <article class="vehicle-detail fronx-detail">
+          <div class="vehicle-visual"><img src="https://drive.google.com/thumbnail?id=1tWT_ni_Q9ZYX0-2v3KUuIbqqEyKNiKTq&sz=w1800" alt="Suzuki Fronx Taxi Hotel" loading="lazy"><span class="vehicle-number">01</span></div>
+          <div class="vehicle-info">
+            <div class="vehicle-labels"><span>PRIVADO</span><span>1–3 PASAJEROS</span></div>
+            <h3>Suzuki Fronx</h3>
+            <p class="vehicle-lead">La opción rápida y eficiente para parejas, viajeros solos o grupos pequeños.</p>
+            <div class="vehicle-specs"><span><b>3</b> pasajeros</span><span><b>23 kg</b> equipaje incluido</span><span><b>15 min</b> confirmación máx.</span></div>
+            <div class="vehicle-price"><small>DESDE</small><strong>$110.000</strong><span>por tramo</span></div>
+            <button class="vehicle-cta" data-book-vehicle="fronx">Reservar Fronx <b>→</b></button>
+          </div>
+        </article>
+
+        <article class="vehicle-detail runner-detail reverse">
+          <div class="vehicle-visual"><img src="https://drive.google.com/thumbnail?id=1lR0Ex_85CA-wmhtXPRCoVMxyue_Ztwfa&sz=w1800" alt="Toyota 4Runner Taxi Hotel" loading="lazy"><span class="vehicle-number">02</span></div>
+          <div class="vehicle-info">
+            <div class="vehicle-labels"><span>PRIVADO</span><span>1–4 PASAJEROS</span></div>
+            <h3>Toyota 4Runner</h3>
+            <p class="vehicle-lead">Más espacio y presencia para viajar cómodo, con equipaje y atención totalmente privada.</p>
+            <div class="vehicle-specs"><span><b>4</b> pasajeros</span><span><b>Mayor</b> capacidad</span><span><b>15 min</b> confirmación máx.</span></div>
+            <div class="vehicle-price"><small>DESDE</small><strong>$180.000</strong><span>por tramo</span></div>
+            <button class="vehicle-cta" data-book-vehicle="runner">Reservar 4Runner <b>→</b></button>
+          </div>
+        </article>
+
+        <article class="vehicle-detail sprinter-detail">
+          <div class="vehicle-visual"><img src="https://drive.google.com/thumbnail?id=1ukAB-JqoiCTaMSSrpCcEmd1im2pVQIy_&sz=w1800" alt="Mercedes Sprinter Taxi Hotel" loading="lazy"><span class="vehicle-number">03</span></div>
+          <div class="vehicle-info">
+            <div class="vehicle-labels"><span>SEMIPRIVADO</span><span>5–16 PASAJEROS</span></div>
+            <h3>Mercedes Sprinter</h3>
+            <p class="vehicle-lead">Para grupos, familias grandes y equipaje especial. La salida se coordina previamente con operaciones.</p>
+            <div class="vehicle-specs"><span><b>16</b> pasajeros</span><span><b>24 h</b> confirmación</span><span><b>7+</b> activa oferta</span></div>
+            <div class="sprinter-rates"><div><small>5–6 pasajeros</small><strong>$38.000</strong><span>p/p · tramo</span></div><div class="promo"><small>7–16 pasajeros</small><strong>$26.000</strong><span>p/p · tramo</span></div></div>
+            <button class="vehicle-cta" data-book-vehicle="sprinter">Solicitar Sprinter <b>→</b></button>
+          </div>
+        </article>
+      </div>
+
+      <div class="fleet-note"><span>Equipaje incluido: 1 maleta de hasta 23 kg + bolso de mano por pasajero.</span><a href="https://wa.me/message/GWJW4AT4N3SKA1" target="_blank" rel="noreferrer">¿Equipaje especial? Escríbenos →</a></div>
     </section>
 
-    <section class="process section" id="como-funciona">
-      <div class="section-head"><p class="kicker">RESERVA SIMPLE</p><h2>Todo claro, paso a paso</h2></div>
-      <div class="process-grid"><div><b>01</b><h3>Elige tu viaje</h3><p>Fecha, hora, pasajeros, vuelo y alojamiento.</p></div><div><b>02</b><h3>Confirmamos</h3><p>Taxis en hasta 15 minutos. Sprinter en hasta 24 horas.</p></div><div><b>03</b><h3>Completa y paga</h3><p>Onboarding esencial y pago total para asegurar la reserva.</p></div><div><b>04</b><h3>Viaja tranquilo</h3><p>Recibes tu código y seguimiento por WhatsApp.</p></div></div>
+    <section class="process-premium" id="como-funciona">
+      <div class="process-hero">
+        <div><p class="kicker">CÓMO FUNCIONA</p><h2>Reserva con claridad.<br><em>Nosotros coordinamos el resto.</em></h2></div>
+        <p>La web organiza tu solicitud, calcula la mejor opción y deja todos los datos listos para que operaciones confirme el viaje.</p>
+      </div>
+
+      <div class="process-timeline">
+        <article><div class="step-index">01</div><div class="step-body"><span>PLANIFICA</span><h3>Elige ruta, fecha y hora</h3><p>Selecciona aeropuerto → San Pedro, San Pedro → aeropuerto o ida y vuelta. El calendario acepta horarios cada 30 minutos.</p></div></article>
+        <article><div class="step-index">02</div><div class="step-body"><span>PERSONALIZA</span><h3>Pasajeros, vehículo y extras</h3><p>Indicamos qué vehículo funciona para tu grupo y agregas maletas, paradas, silla de bebé o prioridad si la necesitas.</p></div></article>
+        <article><div class="step-index">03</div><div class="step-body"><span>CONFIRMACIÓN</span><h3>Validamos disponibilidad</h3><p>Fronx y 4Runner: respuesta máxima de 15 minutos. Sprinter: confirmación dentro de 24 horas.</p></div></article>
+        <article><div class="step-index">04</div><div class="step-body"><span>SEGURIDAD</span><h3>Completa el onboarding</h3><p>Registramos datos esenciales de cada pasajero, vuelo, alojamiento y equipaje para que la reserva quede correctamente identificada.</p></div></article>
+        <article><div class="step-index">05</div><div class="step-body"><span>CIERRE</span><h3>Paga y asegura tu traslado</h3><p>Una vez confirmada la disponibilidad, recibes un enlace simple para pagar el 100% y asegurar la reserva.</p></div></article>
+        <article><div class="step-index">06</div><div class="step-body"><span>VIAJE</span><h3>Recibe tu código y seguimiento</h3><p>Tu reserva queda identificada con código, vehículo y horario. Las dudas o incidencias se resuelven por WhatsApp.</p></div></article>
+      </div>
+
+      <div class="operation-panel">
+        <div><span class="op-label">EN AEROPUERTO</span><strong>60 min</strong><p>de espera incluidos desde el aterrizaje real.</p></div>
+        <div><span class="op-label">ANTES DE NO SHOW</span><strong>+15 min</strong><p>para intentar contacto antes de cerrar la incidencia.</p></div>
+        <div><span class="op-label">SOLICITUD URGENTE</span><strong>&lt;30 min</strong><p>prioridad disponible con +20%, sujeto a disponibilidad.</p></div>
+        <div><span class="op-label">HOTEL</span><strong>15 min</strong><p>de cortesía para recogidas coordinadas.</p></div>
+      </div>
+
+      <div class="process-cta"><div><p class="kicker">¿LISTO PARA VIAJAR?</p><h3>Tu traslado puede quedar solicitado ahora.</h3></div><button data-open-booking>Comenzar reserva <b>→</b></button></div>
     </section>
   </main>
 
