@@ -11,7 +11,7 @@ function chooseVehicleAndOpen(id){
   openBooking();
 }
 $$('[data-book-vehicle]').forEach(b=>b.onclick=()=>chooseVehicleAndOpen(b.dataset.bookVehicle));
-$('[data-frame-book]').forEach(b=>{
+$$('[data-frame-book]').forEach(b=>{
   b.addEventListener('pointerdown',e=>e.stopPropagation());
   b.addEventListener('pointerup',e=>e.stopPropagation());
   b.addEventListener('click',e=>{
