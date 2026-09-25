@@ -1,0 +1,320 @@
+/* TAXI HOTEL · Brand system 2026
+   Identity built around the TH monogram, Manrope/Inter and the existing red accent. */
+:root{
+  --ink:#0f172a;
+  --navy:#0b1b2d;
+  --blue:#17324c;
+  --red:#f51637;
+  --red-soft:#fff0f3;
+  --ice:#f5f7f9;
+  --line:#e4e8ed;
+  --muted:#697386;
+  --white:#fff;
+  --radius:24px;
+}
+html{background:#fff}
+body{background:#fff;color:var(--ink);font-family:Inter,Arial,sans-serif}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+::selection{background:var(--red);color:#fff}
+
+/* Navigation + wordmark */
+.nav{
+  height:78px;
+  padding:0 clamp(18px,5vw,72px);
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--line);
+  box-shadow:none;
+  backdrop-filter:blur(18px);
+}
+.logo{
+  display:flex!important;
+  grid-template-columns:none!important;
+  align-items:center;
+  gap:12px;
+  letter-spacing:0!important;
+  color:var(--ink);
+  font-family:Inter,Arial,sans-serif!important;
+}
+.logo img{width:38px;height:38px;display:block}
+.logo .wordmark{display:flex;flex-direction:column;line-height:1}
+.logo .wordmark strong{font-family:Manrope,Inter,sans-serif;font-size:15px;letter-spacing:.12em;font-weight:800}
+.logo .wordmark small{font-size:7.5px;letter-spacing:.22em;margin-top:6px;color:#7a8391}
+.nav nav{gap:22px}
+.nav nav a{font-weight:700;color:#303949}
+.nav nav button{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  background:var(--red);
+  color:#fff;
+  box-shadow:0 8px 24px rgba(245,22,55,.16);
+}
+.nav .whatsapp{
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  border-radius:12px;
+}
+.nav .whatsapp:hover{border-color:#bfc7d1;background:#f8fafc}
+
+/* Global brand language */
+.kicker{color:var(--red)!important;font-size:10px!important;letter-spacing:.18em!important;font-weight:800!important}
+.hero-showcase,
+.vehicles-premium{
+  position:relative;
+  background:
+    radial-gradient(circle at 92% 4%,rgba(245,22,55,.035),transparent 23%),
+    #fff;
+}
+.hero-showcase:before,
+.vehicles-premium:before{
+  content:"";
+  position:absolute;
+  width:78px;height:78px;
+  border-left:2px solid rgba(15,23,42,.09);
+  border-top:2px solid rgba(15,23,42,.09);
+  border-top-left-radius:24px;
+  left:clamp(18px,4vw,58px);
+  top:112px;
+  pointer-events:none;
+}
+
+/* Hero */
+.hero-showcase{
+  min-height:100svh;
+  padding:126px clamp(18px,4vw,58px) 34px;
+  grid-template-rows:auto 1fr auto;
+  gap:28px;
+  border-bottom:1px solid var(--line);
+}
+.hero-intro{
+  position:relative;
+  z-index:1;
+  grid-template-columns:minmax(280px,1.15fr) minmax(260px,.7fr);
+  column-gap:7vw;
+  align-items:end;
+  padding-left:26px;
+}
+.hero-intro .kicker{grid-column:1/-1;margin:0 0 14px}
+.hero-intro h1{
+  font-family:Manrope,Inter,sans-serif;
+  font-size:clamp(44px,5.8vw,82px);
+  line-height:.94;
+  letter-spacing:-.065em;
+  font-weight:700;
+  max-width:830px;
+}
+.hero-intro h1 em{color:var(--red);font-style:normal}
+.hero-intro>p:last-child{
+  max-width:430px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+  padding-bottom:6px;
+}
+.fleet-stage{gap:12px}
+.frame-card{
+  border-radius:22px;
+  border:1px solid rgba(15,23,42,.10);
+  box-shadow:0 18px 48px rgba(15,23,42,.08);
+  background:#101820;
+}
+.frame-card.active,.frame-card:hover,.frame-card:focus-visible{
+  transform:translateY(-3px);
+  box-shadow:0 24px 60px rgba(15,23,42,.14);
+}
+.frame-shade{
+  background:
+    linear-gradient(180deg,rgba(4,10,18,.46),transparent 35%,transparent 52%,rgba(4,10,18,.82) 100%);
+}
+.frame-top{top:20px;left:20px;right:20px}
+.frame-top span:first-child{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+.frame-top span:first-child:before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:var(--red);
+}
+.frame-copy{left:20px;right:20px}
+.frame-copy h2{font-size:clamp(28px,3.2vw,50px);letter-spacing:-.055em}
+.frame-bottom{left:20px;right:20px}
+.frame-bottom button{
+  background:#fff;
+  color:var(--ink);
+  border:0;
+  border-radius:10px;
+}
+.frame-bottom button:hover{background:var(--red);color:#fff}
+.frame-progress{height:2px}
+.frame-progress i{background:var(--red)}
+.hero-foot{padding:0 2px}
+.hero-foot>span{color:#8a93a1}
+.hero-book{font-size:13px}
+.hero-book b{
+  background:var(--red);
+  border-radius:10px;
+  width:34px;height:34px;
+}
+
+/* Fleet */
+.vehicles-premium{padding:118px clamp(18px,5vw,78px)}
+.vehicles-premium:before{top:104px;left:clamp(18px,5vw,78px)}
+.vehicles-intro{position:relative;z-index:1;padding-left:26px}
+.vehicles-intro h2,.process-hero h2{
+  font-family:Manrope,Inter,sans-serif;
+  font-weight:700;
+}
+.vehicles-intro h2 em,.process-hero h2 em{color:var(--red)}
+.vehicle-showcase{gap:20px}
+.vehicle-detail{
+  border-radius:26px;
+  border:1px solid var(--line);
+  box-shadow:none;
+  min-height:500px;
+  background:#fff;
+}
+.vehicle-detail:hover{border-color:#ccd3dc}
+.vehicle-visual{background:#eef1f4}
+.vehicle-number{
+  width:44px;height:44px;
+  border-radius:12px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 8px 24px rgba(15,23,42,.08);
+}
+.vehicle-info{padding:48px}
+.vehicle-labels span{
+  border-color:var(--line);
+  color:#596376;
+  background:#fff;
+}
+.vehicle-labels span:first-child{
+  color:var(--red);
+  border-color:#ffd2da;
+  background:var(--red-soft);
+}
+.vehicle-info h3{font-family:Manrope,Inter,sans-serif;font-weight:700}
+.vehicle-specs span{background:#f7f8fa;border:1px solid #edf0f3}
+.vehicle-price strong{color:var(--ink)}
+.vehicle-cta{
+  background:var(--ink);
+  border-radius:12px;
+  transition:.2s ease;
+}
+.vehicle-cta:hover{background:var(--red);transform:translateY(-1px)}
+.sprinter-rates>div{border-color:var(--line);background:#fff}
+.sprinter-rates .promo{background:var(--red-soft);border-color:#ffd2da}
+.fleet-note{
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:#fafbfc;
+}
+
+/* Dark section: same geometry, stronger contrast */
+.process-premium{
+  position:relative;
+  padding:116px clamp(18px,5vw,78px);
+  background:var(--ink);
+  overflow:hidden;
+}
+.process-premium:before,
+.process-premium:after{
+  content:"";
+  position:absolute;
+  width:94px;height:94px;
+  pointer-events:none;
+  opacity:.32;
+}
+.process-premium:before{
+  left:clamp(18px,5vw,78px);top:92px;
+  border-left:2px solid #fff;border-top:2px solid #fff;
+  border-top-left-radius:26px;
+}
+.process-premium:after{
+  right:clamp(18px,5vw,78px);bottom:92px;
+  border-right:2px solid #fff;border-bottom:2px solid #fff;
+  border-bottom-right-radius:26px;
+}
+.process-hero{position:relative;z-index:1;padding-left:26px}
+.process-timeline{border-top-color:rgba(255,255,255,.13)}
+.process-timeline article{border-bottom-color:rgba(255,255,255,.13)}
+.step-index{color:#596477}
+.step-body>span{color:#ff4a63}
+.step-body p{color:#aeb7c4}
+.operation-panel>div{
+  background:#151f31;
+  border-color:rgba(255,255,255,.08);
+  border-radius:16px;
+}
+.operation-panel strong{font-family:Manrope,Inter,sans-serif}
+.process-cta{
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:none;
+}
+.process-cta button{background:var(--red);border-radius:12px}
+
+/* Floating contact */
+.wa-float{
+  border-radius:12px;
+  border:1px solid var(--line);
+  box-shadow:0 14px 40px rgba(15,23,42,.13);
+  color:var(--ink);
+}
+.wa-float b{color:#168b55}
+
+/* Booking experience */
+.booking-shell{border-radius:24px;border:1px solid rgba(255,255,255,.4)}
+.booking-progress{height:4px;background:#edf0f3}
+.booking-progress i{background:var(--red)}
+.booking-head h2{font-family:Manrope,Inter,sans-serif;font-weight:700}
+.trip-tabs{background:#f4f6f8;border-radius:12px}
+.trip-tabs .selected{box-shadow:0 3px 12px rgba(15,23,42,.06)}
+.fields input,.fields select,.fields textarea{border-color:var(--line);background:#fff}
+.fields input:focus,.fields select:focus,.fields textarea:focus{
+  border-color:#9da7b5;
+  box-shadow:0 0 0 3px rgba(15,23,42,.06);
+}
+.vehicle-choice{border-color:var(--line);border-radius:12px}
+.vehicle-choice.selected{border-color:var(--ink);background:#f7f8fa}
+.vehicle-choice b{color:var(--red)}
+.addons>label{border-color:var(--line);border-radius:12px}
+.addons .check input{accent-color:var(--red)}
+.info-note,.policy{background:#f6f8fa;color:#475569}
+.summary{border-color:var(--line)}
+.summary .total{background:#f6f8fa}
+.summary .total strong{color:var(--red)}
+.next{background:var(--red)}
+.success>div{border-radius:24px}
+.success h2{font-family:Manrope,Inter,sans-serif}
+
+/* Mobile */
+@media(max-width:900px){
+  .nav nav{gap:10px}
+  .hero-intro{grid-template-columns:1fr;padding-left:22px}
+  .hero-showcase:before{width:58px;height:58px}
+}
+@media(max-width:650px){
+  .nav{height:70px;padding:0 14px}
+  .logo img{width:34px;height:34px}
+  .logo .wordmark strong{font-size:13px}
+  .logo .wordmark small{display:none}
+  .nav .whatsapp{font-size:11px;padding:9px 12px}
+  .hero-showcase{padding:92px 13px 20px}
+  .hero-showcase:before{top:88px;left:13px;width:46px;height:46px;border-radius:16px 0 0 0}
+  .hero-intro{padding-left:14px}
+  .hero-intro h1{font-size:42px}
+  .hero-intro>p:last-child{font-size:12px}
+  .frame-card{border-radius:16px}
+  .vehicles-premium,.process-premium{padding:78px 14px}
+  .vehicles-premium:before{top:70px;left:14px;width:46px;height:46px}
+  .vehicles-intro,.process-hero{padding-left:14px}
+  .vehicle-detail{border-radius:18px}
+  .vehicle-info{padding:25px 20px}
+  .process-premium:before{top:60px;left:14px;width:52px;height:52px}
+  .process-premium:after{right:14px;bottom:58px;width:52px;height:52px}
+  .process-cta{border-radius:16px}
+}
