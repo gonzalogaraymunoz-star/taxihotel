@@ -4,14 +4,14 @@ let step=1, trip='ida-vuelta', vehicle='fronx', bags=0, stops=0, lastSummary='';
 const CLP=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
 
 
-$('[data-open-booking]').forEach(b=>b.onclick=()=>openBooking());
+$$('[data-open-booking]').forEach(b=>b.onclick=()=>openBooking());
 function chooseVehicleAndOpen(id){
   vehicle=id;
   if(id==='sprinter' && +pax.value<5)pax.value=5;
   openBooking();
 }
-$('[data-book-vehicle]').forEach(b=>b.onclick=()=>chooseVehicleAndOpen(b.dataset.bookVehicle));
-$('[data-frame-book]').forEach(b=>b.onclick=e=>{e.stopPropagation();chooseVehicleAndOpen(b.dataset.frameBook)});
+$$('[data-book-vehicle]').forEach(b=>b.onclick=()=>chooseVehicleAndOpen(b.dataset.bookVehicle));
+$$('[data-frame-book]').forEach(b=>b.onclick=e=>{e.stopPropagation();chooseVehicleAndOpen(b.dataset.frameBook)});
 function openBooking(){booking.showModal();step=1;render()}
 
 const frameCards=$$('[data-frame-card]');
