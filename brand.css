@@ -318,3 +318,14 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
   .process-premium:after{right:14px;bottom:58px;width:52px;height:52px}
   .process-cta{border-radius:16px}
 }
+
+
+/* Product navigation from hero */
+.vehicle-detail{scroll-margin-top:96px}
+.vehicle-detail.vehicle-focus{
+  border-color:rgba(245,22,55,.42);
+  box-shadow:0 0 0 4px rgba(245,22,55,.07);
+}
+@media(max-width:650px){
+  .vehicle-detail{scroll-margin-top:78px}
+}
