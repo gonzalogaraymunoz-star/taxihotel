@@ -1,6 +1,7 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const booking=$('#booking'), success=$('#success');
-let step=1, trip='ida-vuelta', vehicle='fronx', bags=0, stops=0, lastSummary='';
+let step=1, trip='ida-vuelta', vehicle='fronx', bags=0, stops=0, lastSummary='', lastReservationCode='';
+const BOOKING_INTAKE_URL='https://zgbnjlrxzvzpigmwidsp.supabase.co/functions/v1/taxi-hotel-booking-intake';
 const CLP=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
 
 
@@ -70,13 +71,75 @@ function validate(){
     return false;
   }
   $('#returnDate').setCustomValidity('');
+  if(step===3){
+    const lines=$('#passengerData').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const expected=+pax.value;
+    if(lines.length!==expected){
+      $('#passengerData').setCustomValidity(`Ingresa exactamente ${expected} pasajero(s), uno por línea.`);
+      $('#passengerData').focus();
+      $('#passengerData').reportValidity();
+      return false;
+    }
+    $('#passengerData').setCustomValidity('');
+  }
   return true
 }
-function total(){const n=+pax.value,seg=trip==='ida-vuelta'?2:1;let base=vehicle==='fronx'?110000*seg:vehicle==='runner'?180000*seg:n>=7?(trip==='ida-vuelta'?49990:26000)*n:38000*n*seg;let rate=(bags+stops)*.1;if($('#priority').checked&&n<=4)rate+=.2;return {base,extra:Math.round(base*rate),total:Math.round(base*(1+rate))}}
+function total(){const n=+pax.value,seg=trip==='ida-vuelta'?2:1;let base=vehicle==='fronx'?110000*seg:vehicle==='runner'?180000*seg:n>=7?26000*n*seg:38000*n*seg;let rate=(bags+stops)*.1;if($('#priority').checked&&n<=4)rate+=.2;return {base,extra:Math.round(base*rate),total:Math.round(base*(1+rate))}}
 function labelVehicle(){return {fronx:'Suzuki Fronx',runner:'Toyota 4Runner',sprinter:'Mercedes Sprinter'}[vehicle]}
 function makeSummary(){const p=total();const route=trip==='ida-vuelta'?'Aeropuerto ↔ San Pedro':trip==='ida'?'Aeropuerto → San Pedro':'San Pedro → Aeropuerto';$('#summary').innerHTML=`<div><span>RECORRIDO</span><strong>${route}</strong></div><div><span>PASAJEROS</span><strong>${pax.value}</strong></div><div><span>SALIDA</span><strong>${$('#date').value} · ${$('#time').value}</strong></div><div><span>VEHÍCULO</span><strong>${labelVehicle()}</strong></div><div><span>VUELO</span><strong>${$('#flight').value}</strong></div><div><span>ALOJAMIENTO</span><strong>${$('#hotel').value}</strong></div><div class="total"><span>TOTAL ESTIMADO</span><strong>${CLP(p.total)}</strong></div>`;lastSummary=`Hola Taxi Hotel. Solicitud de ${$('#name').value}: ${route}, ${$('#date').value} ${$('#time').value}, ${pax.value} pasajero(s), ${labelVehicle()}, vuelo ${$('#flight').value}, alojamiento ${$('#hotel').value}, total estimado ${CLP(p.total)}.`}
 function render(){ $$('.step').forEach(x=>x.classList.toggle('active',+x.dataset.step===step));$('.booking-progress i').style.width=`${step*25}%`;$('#stepLabel').textContent=`PASO ${step} DE 4`;const titles=[['¿Cuándo viajas?','Elige recorrido, fecha y hora.'],['Diseña tu traslado','Compara vehículos y agrega lo que necesites.'],['Datos para tu seguridad','Información esencial para cerrar el viaje.'],['Revisa tu solicitud','Confirmaremos disponibilidad antes del pago.']][step-1];$('#stepTitle').textContent=titles[0];$('#stepText').textContent=titles[1];$('#back').style.visibility=step===1?'hidden':'visible';$('#next').textContent=step===4?'Solicitar confirmación →':'Continuar →';if(step===2)renderVehicles();if(step===4)makeSummary()}
-function finish(){const code=`TH-${new Date().toISOString().slice(2,10).replaceAll('-','')}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;$('#reservationCode').textContent=code;lastSummary=`${lastSummary} Código ${code}.`;booking.close();success.showModal()}
+async function finish(){
+  const next=$('#next');
+  next.disabled=true;
+  next.textContent='Registrando solicitud…';
+  $('#stepText').textContent='Guardando tu reserva y validando la tarifa en Taxi Hotel.';
+
+  const payload={
+    trip_type:trip,
+    service_code:vehicle,
+    passenger_count:+pax.value,
+    outbound_date:$('#date').value,
+    outbound_time:$('#time').value,
+    return_date:trip==='ida-vuelta'?$('#returnDate').value:null,
+    return_time:trip==='ida-vuelta'?$('#returnTime').value:null,
+    flight_number:$('#flight').value,
+    accommodation:$('#hotel').value,
+    contact_name:$('#name').value,
+    contact_phone:$('#phone').value,
+    contact_email:$('#email').value,
+    passenger_data_raw:$('#passengerData').value,
+    extra_bags:bags,
+    extra_stops:stops,
+    baby_seat:$('#baby').checked,
+    urgent_priority:vehicle==='sprinter'?false:$('#priority').checked,
+    website:''
+  };
+
+  try{
+    const response=await fetch(BOOKING_INTAKE_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok)throw new Error(data.error||'No pudimos registrar la solicitud.');
+
+    const route=trip==='ida-vuelta'?'Aeropuerto ↔ San Pedro':trip==='ida'?'Aeropuerto → San Pedro':'San Pedro → Aeropuerto';
+    const serverTotal=Number(data.quote?.total_clp||0);
+    lastReservationCode=data.reservation_code;
+    $('#reservationCode').textContent=lastReservationCode;
+    lastSummary=`Hola Taxi Hotel. Solicitud ${lastReservationCode}: ${$('#name').value}, ${route}, ${$('#date').value} ${$('#time').value}, ${pax.value} pasajero(s), ${labelVehicle()}, vuelo ${$('#flight').value}, alojamiento ${$('#hotel').value}, total registrado ${CLP(serverTotal)}. ${data.confirmation_rule||''}`;
+
+    booking.close();
+    success.showModal();
+    next.disabled=false;
+    next.textContent='Solicitar confirmación →';
+  }catch(error){
+    $('#stepText').textContent=error?.message||'No pudimos registrar la solicitud. Revisa los datos e intenta nuevamente.';
+    next.disabled=false;
+    next.textContent='Intentar nuevamente →';
+  }
+}
 $('#finishWhatsApp').onclick=async()=>{try{await navigator.clipboard.writeText(lastSummary)}catch{}window.open('https://wa.me/message/GWJW4AT4N3SKA1','_blank')};$('#closeSuccess').onclick=()=>success.close();
 const today=new Date().toISOString().slice(0,10);
 $('#date').min=today;
