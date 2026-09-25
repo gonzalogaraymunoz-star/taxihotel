@@ -11,7 +11,17 @@ function chooseVehicleAndOpen(id){
   openBooking();
 }
 $$('[data-book-vehicle]').forEach(b=>b.onclick=()=>chooseVehicleAndOpen(b.dataset.bookVehicle));
-$$('[data-frame-book]').forEach(b=>b.onclick=e=>{e.stopPropagation();chooseVehicleAndOpen(b.dataset.frameBook)});
+$('[data-frame-book]').forEach(b=>b.onclick=e=>{
+  e.stopPropagation();
+  vehicle=b.dataset.frameBook;
+  const target=document.querySelector('#vehiculo-'+vehicle);
+  if(target){
+    history.replaceState(null,'','#vehiculo-'+vehicle);
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+    target.classList.add('vehicle-focus');
+    setTimeout(()=>target.classList.remove('vehicle-focus'),1400);
+  }
+});
 function openBooking(){booking.showModal();step=1;render()}
 
 const frameCards=$$('[data-frame-card]');
