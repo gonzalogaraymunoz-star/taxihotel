@@ -11,9 +11,14 @@ function chooseVehicleAndOpen(id){
   openBooking();
 }
 $$('[data-book-vehicle]').forEach(b=>b.onclick=()=>chooseVehicleAndOpen(b.dataset.bookVehicle));
-$$('[data-frame-book]').forEach(b=>b.onclick=e=>{
-  e.stopPropagation();
-  chooseVehicleAndOpen(b.dataset.frameBook);
+$('[data-frame-book]').forEach(b=>{
+  b.addEventListener('pointerdown',e=>e.stopPropagation());
+  b.addEventListener('pointerup',e=>e.stopPropagation());
+  b.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    chooseVehicleAndOpen(b.dataset.frameBook);
+  });
 });
 function openBooking(){booking.showModal();step=1;render()}
 
@@ -33,10 +38,10 @@ frameCards.forEach(card=>{
     }
   };
   card.addEventListener('pointerenter',e=>{activateFrame(card);if(video){video.pause();seek(e.clientX)}});
-  card.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||dragging)seek(e.clientX)});
+  card.addEventListener('pointermove',e=>{if(e.target.closest('button'))return;if(e.pointerType==='mouse'||dragging)seek(e.clientX)});
   card.addEventListener('pointerleave',()=>{dragging=false;card.style.setProperty('--mx','0px');if(video)video.play().catch(()=>{})});
-  card.addEventListener('pointerdown',e=>{dragging=true;activateFrame(card);card.setPointerCapture?.(e.pointerId);seek(e.clientX)});
-  card.addEventListener('pointerup',e=>{dragging=false;card.releasePointerCapture?.(e.pointerId)});
+  card.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;dragging=true;activateFrame(card);card.setPointerCapture?.(e.pointerId);seek(e.clientX)});
+  card.addEventListener('pointerup',e=>{if(e.target.closest('button'))return;dragging=false;card.releasePointerCapture?.(e.pointerId)});
   card.addEventListener('focus',()=>activateFrame(card));
   card.addEventListener('click',e=>{if(e.target.closest('button'))return;activateFrame(card)});
   if(video){
